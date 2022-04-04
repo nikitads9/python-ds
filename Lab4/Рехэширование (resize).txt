@@ -1,0 +1,49 @@
+ INITIAL_CAPACITY = 4
+class Node:
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
+		self.next = None
+# Hash table with separate chaining
+class HashTable:
+	# Initialize hash table
+	def __init__(self):
+		self.capacity = INITIAL_CAPACITY
+		self.size = 0
+		self.buckets = [None]*self.capacity
+	# Generate a hash for a given key
+	# Input:  key - string
+	# Output: Index from 0 to self.capacity
+	def hash(self, key):
+		return key % self.capacity
+
+	def insert(self, key, value):
+		self.size += 1
+		index = self.hash(key)
+		node = self.buckets[index]
+		if node is None: #Если такого узла нет, то добавляем ключ-значение
+			self.buckets[index] = Node(key, value)
+			if (self.size / self.capacity > 0.75): self.rehash()
+			return
+		
+	def rehash(self):
+        #Прежняя таблица сохраняется
+		temp = self.buckets
+ 
+        #  инициализируем и удваеваем емкость
+		self.buckets = [None]*self.capacity 
+        # and we loop through all the nodes in the original bucket list(temp)
+        # and insert it into the new list
+		self.size = 0 
+		self.capacity *= 2
+		for i in range(len(temp)):
+            # head of the chain at that index
+			node = Node(i, temp[i])
+			while (node != None):
+
+				key = node.key
+				val = node.value
+				self.buckets.insert(key, val)
+				self.size += 1
+				node = node.next
+		print ("rehashing ended")
