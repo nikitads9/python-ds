@@ -20,7 +20,7 @@ class HashTable:
 	def insert(self, key, value):
 		self.size += 1
 		index = self.hash(key)
-		node = self.buckets[index]
+		node = self.buckets][index]
 		if node is None: #Если такого узла нет, то добавляем ключ-значение
 			self.buckets[index] = Node(key, value)
 			if (self.size / self.capacity > 0.75): self.rehash()
